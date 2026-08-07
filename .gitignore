@@ -1,3 +1,17 @@
+# Dataset files
+*.rar
+*.jpg
+*.png
+*.dcm
+
+# Folders containing dataset files
+dataset/
+data/
+
+# Model weights
+*.pt
+*.pth
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
