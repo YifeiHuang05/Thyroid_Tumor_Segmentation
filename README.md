@@ -2,6 +2,10 @@
 
 Dataset Info from hunglc007/ThyroidXL from HuggingFace: https://huggingface.co/datasets/hunglc007/ThyroidXL#thyroidxl-dataset
 
+# VSCode Setup
+1. Create your own virtual environment using conda or pip.
+2. run: pip install -r requirements.txt
+
 # ThyroidXL Dataset
 The ThyroidXL dataset. The annotations are provided for classification, detection and segmentation tasks.
 
