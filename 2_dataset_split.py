@@ -5,9 +5,9 @@ import shutil
 from sklearn.model_selection import train_test_split
 
 # --- DIRECTORIES ---
-IMAGE_DIR = "ThyroidXL/train/images"                 # Original training images
-LABEL_DIR = "data/labels/train_task_c"               # The Task C .txt labels you just generated
-ID2INFO_PATH = "id2info_eng.json"
+IMAGE_DIR = "data/ThyroidXL/train/images"     # Original training images
+LABEL_DIR = "data/labels/train_task_c"     
+ID2INFO_PATH = "data/ThyroidXL/stats/id2info_eng.json" # The clinical metadata file
 
 # New YOLO directories
 BASE_OUT = "yolo_dataset"
