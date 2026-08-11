@@ -78,8 +78,8 @@ python evaluate.py              # 加载 best 模型，输出 任务A 与 任务
 ```
 
 任务 C 会同时报告两种裁剪来源：
-- `crop_from=pred`：用**预测** mask 裁剪（与推理一致，反映真实级联性能）
-- `crop_from=gt`  ：用 **GT** mask 裁剪（性能上限参考）
+- `crop_from=pred`：用**预测** mask 裁剪
+- `crop_from=gt`  ：用 **GT** mask 裁剪
 
 ## 推理
 
@@ -94,11 +94,3 @@ python infer.py --ckpt_seg runs/seg_best.pth --ckpt_cls runs/cls_best.pth --out 
 
 
 
-## 关键约定（来自数据探查）
-
-- 图像真 RGB、尺寸不一 → letterbox 保持比例后 resize 到 512×512。
-- mask 灰度 {0,255}，前景=255；结节面积占比均值 ~7.8%（小目标，强不平衡）→ 分割用 Dice+BCE。
-- 文件名 `{患者ID}_{检查ID}_{图序}.png`，前缀=患者ID，用于患者级划分。
-- 任务 C 标签是**患者级**：同一患者多张图共享标签，评估在患者级聚合（图像级预测平均后投票）。
-- 默认标签中有 3 例 labels_orig 标良性但病理为乳头状癌的矛盾样本，用自有标签覆盖后可消除。
-- 分类器输入是**结节 patch 而非整图**，直接喂整图容易学背景；这是级联的核心价值。
