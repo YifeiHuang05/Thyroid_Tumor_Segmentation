@@ -1,5 +1,6 @@
 ### REMOVE backslash when on windows
 
+# data_prep_pipeline.py
 Dataset prep only:
 python data_prep_pipeline.py \
     --source data\ThyroidXL \
@@ -12,3 +13,26 @@ python data_prep_pipeline.py \
     --output data\ThyroidXL_yolo \
     --test-run \ 
     --epochs 3 
+
+
+# yolo_training.py
+
+Baseline no HPO:
+python yolo_training.py 
+    --dataset data\ThyroidXL_yolo\dataset.yaml 
+    --model model\yolo26n-seg.pt
+    --device 0
+    --epochs 100
+    --batch -1 --test
+
+Baseline with HPO:
+python yolo_training.py 
+    --dataset data\ThyroidXL_yolo\dataset.yaml 
+    --model model\yolo26n-seg.pt
+    --device 0
+    --epochs 100
+    --batch -1 
+    --run-tune
+    --tune-iterations 10
+    --tune-epochs 20
+    --test
