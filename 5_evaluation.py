@@ -21,7 +21,7 @@ for r in results:
     
     # 1. Get Ground Truth (You'd look this up from id2info again, assuming test set is there)
     pat_id = base_name.split('_')[0]
-    true_class = 1 if is_ptc(pat_id) else 0 # Assuming is_ptc is imported/defined
+    true_class = 1 if "ptc" in pat_id.lower() else 0
     y_true.append(true_class)
     
     # 2. Get Model's Prediction
