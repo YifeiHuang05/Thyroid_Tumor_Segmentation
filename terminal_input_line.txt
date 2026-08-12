@@ -15,7 +15,32 @@ python data_prep_pipeline.py \
     --epochs 3 
 
 
+# regenerate_label.py
+python regenerate_label.py 
+    --source data\ThyroidXL 
+    --output data\ThyroidXL_yolo
+    --split-csv data\ThyroidXL_yolo\metadata\patient_split.csv
+
+
 # yolo_training.py
+python yolo_training.py 
+    --dataset data\ThyroidXL_yolo\dataset.yaml 
+    --model model\yolo26n-seg.pt
+    --project data\ThyroidXL_yolo\runs
+    --device 0
+    --epochs 100
+    --batch -1 
+    --test
+
+
+
+
+
+
+
+
+
+
 
 Baseline no HPO:
 python yolo_training.py 

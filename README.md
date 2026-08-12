@@ -66,71 +66,13 @@ TRAIN: 2683 patients |  7665 images |  405 PTC+ |  15.10% PTC
 VAL:    671 patients |  1876 images |  101 PTC+ |  15.05% PTC
 ======================================================================
 
-TRAIN DATASET
---------------------------------------------------
-Images processed:          7665
-PTC polygons written:      7665
-Missing images:             0
-Missing/invalid polygons:  0
+TRAIN: images=7665 polygons=7665 PTC=1164 non-PTC=6501 missing=0
+VAL: images=1876 polygons=1876 PTC=272 non-PTC=1604 missing=0
+TEST: images=2094 polygons=2094 PTC=537 non-PTC=1557 missing=0
 
-Original annotation category counts (AUDIT ONLY):
-  category_id=0: 5692
-  category_id=1: 1973
-
-VAL DATASET
---------------------------------------------------
-Images processed:          1876
-PTC polygons written:      1876
-Missing images:             0
-Missing/invalid polygons:  0
-
-Original annotation category counts (AUDIT ONLY):
-  category_id=0: 1360
-  category_id=1: 516
-Saved subset JSON: C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL_yolo\metadata\train_annotations.json
-Saved subset JSON: C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL_yolo\metadata\val_annotations.json
-
-Loading JSON:
-  C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL\test\test_annotations.json
-
-Test patients: 739
-Test images: 2094
-
-TEST DATASET
---------------------------------------------------
-Images processed:          2094
-PTC polygons written:      2094
-Missing images:             0
-Missing/invalid polygons:  0
-
-Original annotation category counts (AUDIT ONLY):
-  category_id=0: 1120
-  category_id=1: 974
-
-Saved dataset.yaml:
-  C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL_yolo\dataset.yaml
-
-======================================================================
-DATASET AUDIT
-======================================================================
-
-TRAIN
-  images: 7665
-  labels: 7665
-  images without label file: 0
-  labels without image: 0
-
-VAL
-  images: 1876
-  labels: 1876
-  images without label file: 0
-  labels without image: 0
-
-TEST
-  images: 2094
-  labels: 2094
-  images without label file: 0
-  labels without image: 0
+Dataset YAML: C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL_yolo\dataset.yaml
+PTC patients: 506
+non-PTC patients: 2848
 
 
 
