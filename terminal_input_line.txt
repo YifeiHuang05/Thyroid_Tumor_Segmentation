@@ -1,13 +1,13 @@
 ### REMOVE backslash when on windows
 
 Dataset prep only:
-python thyroidxl_pipeline.py \
+python data_prep_pipeline.py \
     --source data\ThyroidXL \
     --output data\ThyroidXL_yolo \
     --prepare-only
 
 Run test yolo run:
-python thyroidxl_pipeline.py \
+python data_prep_pipeline.py \
     --source data\ThyroidXL \
     --output data\ThyroidXL_yolo \
     --test-run \ 
