@@ -48,15 +48,12 @@ from sklearn.model_selection import train_test_split
 # ============================================================
 # CONFIGURATION
 # ============================================================
-
 RANDOM_SEED = 2026
 VAL_SIZE = 0.20
 
 # PTC definition.
-#
 # This is based on patient-level Histopathology.
 # nodule_2 is assumed to be null in the training annotation JSON.
-
 PTC_POSITIVE_TERMS = {
     "papillary thyroid carcinoma",
     "micro-papillary thyroid carcinoma",
@@ -68,15 +65,13 @@ PTC_CLASS_ID = 0
 PTC_CLASS_NAME = "PTC"
 
 # YOLO26n-seg pretrained model
-MODEL_NAME = "yolo26n-seg.pt"
+MODEL_NAME = "model\\yolo26n-seg.pt"
 
 
 # ============================================================
 # PATH ARGUMENTS
 # ============================================================
-
 def parse_args():
-
     parser = argparse.ArgumentParser(
         description="Prepare ThyroidXL for YOLO26-seg and optionally run a test training."
     )
@@ -160,11 +155,12 @@ def parse_args():
 # ============================================================
 # PATH SETUP
 # ============================================================
-
 def resolve_paths(args):
 
     source = Path(args.source).expanduser().resolve()
     output = Path(args.output).expanduser().resolve()
+    # create output directory if it doesn't exist
+    output.mkdir(parents=True, exist_ok=True)
 
     train_json = (
         Path(args.train_json).expanduser().resolve()
@@ -203,9 +199,7 @@ def resolve_paths(args):
 # ============================================================
 # OUTPUT DIRECTORIES
 # ============================================================
-
 def create_directories(output):
-
     directories = [
         output / "images" / "train",
         output / "images" / "val",
@@ -225,7 +219,6 @@ def create_directories(output):
 # ============================================================
 # JSON
 # ============================================================
-
 def load_json(path):
 
     print(f"\nLoading JSON:")
@@ -234,34 +227,26 @@ def load_json(path):
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
-
 # ============================================================
 # PATIENT ID NORMALISATION
 # ============================================================
-
 def normalise_patient_id(patient_id):
-
     """
     Keep patient IDs consistent.
-
     Example:
         603       -> 00000603
         "603"     -> 00000603
         "00000603" -> 00000603
     """
-
     try:
         return str(int(patient_id)).zfill(8)
     except (ValueError, TypeError):
         return str(patient_id)
 
-
 # ============================================================
 # PTC STATUS
 # ============================================================
-
 def get_histopathology(patient_record):
-
     values = []
 
     for nodule_key in ["nodule_1", "nodule_2"]:
@@ -281,39 +266,26 @@ def get_histopathology(patient_record):
 
     return values
 
-
 def is_ptc_patient(patient_record):
-
     histopathology = get_histopathology(patient_record)
-
     for diagnosis in histopathology:
-
         diagnosis_lower = diagnosis.lower().strip()
 
         for positive_term in PTC_POSITIVE_TERMS:
-
             if diagnosis_lower == positive_term.lower():
                 return True
 
     return False
 
-
 # ============================================================
 # PATIENT TABLE
 # ============================================================
-
 def build_patient_table(data):
-
     rows = []
-
     for patient_id_raw, patient_record in data["info"].items():
-
         patient_id = normalise_patient_id(patient_id_raw)
-
         images = patient_record.get("images", [])
-
         histopathology = get_histopathology(patient_record)
-
         ptc_status = int(
             is_ptc_patient(patient_record)
         )
@@ -327,11 +299,9 @@ def build_patient_table(data):
 
     return rows
 
-
 # ============================================================
 # CREATE / LOAD PERMANENT PATIENT SPLIT
 # ============================================================
-
 def create_new_patient_split(patient_table):
 
     patient_ids = [
@@ -363,7 +333,6 @@ def create_new_patient_split(patient_table):
         )
 
     return train_patients, val_patients
-
 
 def load_existing_patient_split(csv_path):
 
@@ -415,7 +384,6 @@ def save_patient_split(
     val_patients,
     metadata_dir,
 ):
-
     csv_path = metadata_dir / "patient_split.csv"
 
     with open(
@@ -464,7 +432,6 @@ def save_patient_split(
     print(f"\nSaved permanent split:")
     print(f"  {csv_path}")
 
-
 def save_patient_lists(
     train_patients,
     val_patients,
@@ -487,11 +454,9 @@ def save_patient_lists(
     print(f"  {train_path}")
     print(f"  {val_path}")
 
-
 # ============================================================
 # SPLIT STATISTICS
 # ============================================================
-
 def print_split_statistics(
     patient_table,
     train_patients,
@@ -560,31 +525,23 @@ def print_split_statistics(
 
     print("=" * 70)
 
-
 # ============================================================
 # IMAGE LOOKUP
 # ============================================================
-
 def build_image_lookup(data):
-
     return {
         image["id"]: image
         for image in data["images"]
     }
 
-
 # ============================================================
 # ANNOTATION LOOKUP
 # ============================================================
-
 def build_annotation_lookup(data):
-
     lookup = {}
 
     for annotation in data["annotations"]:
-
         image_id = annotation["image_id"]
-
         lookup.setdefault(
             image_id,
             []
@@ -592,11 +549,9 @@ def build_annotation_lookup(data):
 
     return lookup
 
-
 # ============================================================
 # POLYGON -> YOLO SEGMENTATION
 # ============================================================
-
 def annotation_to_yolo_lines(
     annotation,
     image_width,
@@ -613,11 +568,9 @@ def annotation_to_yolo_lines(
     lines = []
 
     # COCO polygon format:
-    #
     # [
     #   [x1, y1, x2, y2, ...]
     # ]
-    #
     # or potentially multiple polygons.
 
     if not isinstance(segmentation, list):
@@ -681,11 +634,9 @@ def annotation_to_yolo_lines(
 
     return lines
 
-
 # ============================================================
 # PROCESS TRAIN / VAL
 # ============================================================
-
 def process_split(
     data,
     patient_ids,
@@ -741,20 +692,12 @@ def process_split(
 
             missing_images += 1
             continue
-
-        # ----------------------------------------------------
         # Copy image
-        # ----------------------------------------------------
-
         shutil.copy2(
             source_image,
             destination_image,
         )
-
-        # ----------------------------------------------------
         # Generate label
-        # ----------------------------------------------------
-
         label_path = (
             output_labels_dir /
             f"{Path(file_name).stem}.txt"
@@ -768,7 +711,6 @@ def process_split(
         yolo_lines = []
 
         for annotation in annotations:
-
             # Keep an audit trail of the original annotation
             # category, but do NOT use category_id as the PTC
             # definition.
@@ -793,11 +735,8 @@ def process_split(
             yolo_lines.extend(lines)
 
         # Every image receives a TXT file.
-        #
         # For a PTC-negative image, this file is empty.
-        #
-        # This explicitly tells the dataset-building pipeline
-        # that the image contains no PTC object.
+        # This explicitly tells the dataset-building pipeline that the image contains no PTC object.
 
         with open(
             label_path,
@@ -847,11 +786,9 @@ def process_split(
             dict(original_category_counts),
     }
 
-
 # ============================================================
 # SUBSET JSON
 # ============================================================
-
 def create_subset_json(
     data,
     patient_ids,
@@ -928,11 +865,9 @@ def create_subset_json(
         f"Saved subset JSON: {output_path}"
     )
 
-
 # ============================================================
 # PROCESS TEST SET
 # ============================================================
-
 def process_test_set(
     test_data,
     test_images_dir,
@@ -954,11 +889,9 @@ def process_test_set(
         split_name="test",
     )
 
-
 # ============================================================
 # DATASET YAML
 # ============================================================
-
 def create_dataset_yaml(output):
 
     yaml_path = output / "dataset.yaml"
@@ -994,7 +927,6 @@ names:
 # ============================================================
 # DATASET AUDIT
 # ============================================================
-
 def audit_dataset(output):
 
     print("\n" + "=" * 70)
@@ -1070,23 +1002,18 @@ def audit_dataset(output):
                 "corresponding image."
             )
 
-
 # ============================================================
 # YOLO TEST TRAINING
 # ============================================================
-
 def run_yolo_test(
     output,
     epochs,
     device,
     workers,
 ):
-
     try:
         from ultralytics import YOLO
-
     except ImportError:
-
         raise RuntimeError(
             "\nUltralytics is not installed.\n"
             "Install it with:\n\n"
@@ -1102,19 +1029,15 @@ def run_yolo_test(
     print(
         f"Model:     {MODEL_NAME}"
     )
-
     print(
         f"Epochs:    {epochs}"
     )
-
     print(
         "imgsz:     DEFAULT (640)"
     )
-
     print(
         f"Dataset:   {dataset_yaml}"
     )
-
     if device is not None:
         print(
             f"Device:    {device}"
@@ -1137,29 +1060,20 @@ def run_yolo_test(
     }
 
     if device is not None:
-        train_kwargs["device"] = device
-
-    # IMPORTANT:
-    # imgsz is intentionally NOT supplied.
-    # Ultralytics default is 640.
+        train_kwargs["device"] = 0
 
     results = model.train(
         **train_kwargs
     )
-
     print("\nTraining finished.")
-
     return results
-
 
 # ============================================================
 # MAIN
 # ============================================================
-
 def main():
 
     args = parse_args()
-
     (
         source,
         output,
@@ -1180,7 +1094,6 @@ def main():
     # --------------------------------------------------------
     # Check inputs
     # --------------------------------------------------------
-
     if not train_json_path.exists():
         raise FileNotFoundError(
             f"Training JSON not found:\n"
@@ -1192,17 +1105,14 @@ def main():
             f"Training image directory not found:\n"
             f"{train_images_dir}"
         )
-
     # --------------------------------------------------------
     # Create directories
     # --------------------------------------------------------
-
     create_directories(output)
 
     metadata_dir = (
         output / "metadata"
     )
-
     # --------------------------------------------------------
     # Load training JSON
     # --------------------------------------------------------
@@ -1210,7 +1120,6 @@ def main():
     train_data = load_json(
         train_json_path
     )
-
     print()
     print(
         f"Training patients: "
@@ -1226,11 +1135,9 @@ def main():
         f"Training annotations: "
         f"{len(train_data['annotations'])}"
     )
-
     # --------------------------------------------------------
     # Build patient table
     # --------------------------------------------------------
-
     patient_table = build_patient_table(
         train_data
     )
@@ -1255,11 +1162,9 @@ def main():
         f"PTC-negative patients: "
         f"{n_non_ptc}"
     )
-
     # --------------------------------------------------------
     # Load existing split OR create new one
     # --------------------------------------------------------
-
     split_csv = (
         metadata_dir /
         "patient_split.csv"
@@ -1472,23 +1377,18 @@ def main():
     # --------------------------------------------------------
     # Create dataset.yaml
     # --------------------------------------------------------
-
     create_dataset_yaml(
         output
     )
-
     # --------------------------------------------------------
     # Audit
     # --------------------------------------------------------
-
     audit_dataset(
         output
     )
-
     # --------------------------------------------------------
     # Stop here if requested
     # --------------------------------------------------------
-
     if args.prepare_only:
 
         print()
