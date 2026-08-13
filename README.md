@@ -77,7 +77,11 @@ non-PTC patients: 2848
 
 
 
-
+0813 validating best.pt after epoch 54:
+Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):
+all       1876       1876      0.598      0.794      0.666      0.435        0.6      0.807      0.668      0.432
+non-PTC       1604       1604      0.794      0.944      0.932      0.629      0.796      0.948      0.933      0.627
+PTC        272        272      0.401      0.643      0.399      0.241      0.405      0.665      0.404      0.237
 
 
 

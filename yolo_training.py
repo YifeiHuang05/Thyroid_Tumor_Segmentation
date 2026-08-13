@@ -1,6 +1,7 @@
 from pathlib import Path
 import argparse,csv,time
 import numpy as np
+import tqdm
 import torch
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -33,10 +34,41 @@ def check_cuda(device):
     print(f"Requested device:      {device}")
     print("="*70)
 
+def clear_dataset_caches(dataset_root):
+    """Delete any existing YOLO dataset cache files to avoid stale data."""
+    dataset_root=Path(dataset_root)
+    cache_files=list(dataset_root.rglob("*.cache"))
+    if cache_files:
+        print(f"\nDeleting {len(cache_files)} YOLO dataset cache files to avoid stale data:")
+        for f in cache_files:
+            print(f"  {f}")
+            f.unlink()
+        else:  
+            print("\nNo YOLO dataset cache files found.")
+
+def check_dataset_classes(dataset_root):
+    print("\n"+"="*70);print("DATASET CHECK");print("="*70 )
+    for split in ["train","val","test"]:
+        label_dir=Path(dataset_root)/"labels"/split
+        if not label_dir.exists(): raise FileNotFoundError(f"Label directory not found:\n{label_dir}")
+        class_ids=set()
+        for label_file in sorted(label_dir.glob("*.txt")):
+            with open(label_file,"r",encoding="utf-8") as f:
+                for line in f:
+                    line=line.strip()
+                    if line:
+                        class_id=int(line.split()[0])
+                        class_ids.add(class_id)
+        print(f"{split.upper()} split: Found {len(class_ids)} unique class IDs: {sorted(class_ids)}")
+        if any(c not in (0,1) for c in class_ids): raise RuntimeError(f"Unexpected class IDs in {label_dir}: {sorted(class_ids)}. Only 0 and 1 are allowed.")
+
+
 def train_model(model_path,dataset,project,epochs,batch,device,workers,name,hyperparameters=None):
     print("\n"+"="*70);print(f"TRAINING: {name}");print("="*70)
     model=YOLO(str(model_path))
-    train_args={"data":str(dataset),"epochs":epochs,"batch":batch,"device":device,"workers":workers,"project":str(project),"name":name,"exist_ok":True,"pretrained":True,"plots":True,"save":True,"val":True}
+    train_args={"data":str(dataset),"epochs":epochs,"batch":batch,"device":device,"workers":workers,
+                "project":str(project),"name":name,"exist_ok":True,"pretrained":True,
+                "plots":True,"save":True,"val":True,"patience":20,"verbose":True}
     if hyperparameters: train_args.update(hyperparameters)
     print("\nTraining arguments:")
     for key,value in train_args.items(): print(f"  {key}: {value}")
@@ -176,6 +208,8 @@ def main():
     if not dataset.exists(): raise FileNotFoundError(f"dataset.yaml not found:\n{dataset}")
     if not model_path.exists(): raise FileNotFoundError(f"Model not found:\n{model_path}")
     dataset_root=dataset.parent
+    clear_dataset_caches(dataset_root)
+    check_dataset_classes(dataset_root)
     project=Path(args.project).resolve() if args.project else dataset_root/"runs"
     project.mkdir(parents=True,exist_ok=True)
     check_cuda(args.device)
@@ -189,7 +223,7 @@ def main():
 
     final_model,_=train_model(model_path,dataset,project,args.epochs,args.batch,args.device,args.workers,"final",best_hyperparameters)
     best_model_path=project/"final"/"weights"/"best.pt"
-    print(f"\nBest model:\n{best_model_path}")
+
 
     if args.test:
         standard_validation(best_model_path,dataset,args.device,project)
