@@ -33,7 +33,12 @@ python yolo_training.py
     --test
 
 
-
+# test_ptc.py
+python test_ptc.py 
+    --model data\ThyroidXL_yolo\runs\final\weights\best.pt
+    --dataset data\ThyroidXL_yolo
+    --device 0
+    --conf 0.25
 
 
 

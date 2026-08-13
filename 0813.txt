@@ -5,3 +5,43 @@ non-PTC   1604       1604      0.794      0.944      0.932      0.629      0.796
 PTC        272        272      0.401      0.643      0.399      0.241      0.405      0.665      0.404      0.237
 
 
+
+test_ptc.py:
+Model:          data\ThyroidXL_yolo\runs\final\weights\best.pt
+Dataset:        data\ThyroidXL_yolo
+Test images:    data\ThyroidXL_yolo\images\test
+Confidence:     0.25
+Device:         0
+
+Number of test images: 2094
+======================================================================
+FINAL TEST SET RESULTS
+======================================================================
+
+Number of test images: 2094
+
+Image-level PTC metrics:
+Accuracy:             0.7278
+Balanced accuracy:    0.6596
+Macro F1:              0.6542
+F1:                    0.4947
+Precision:             0.4721
+Sensitivity/Recall:    0.5196
+Specificity:           0.7996
+
+Confusion matrix:
+                 Predicted
+                 Negative Positive
+Actual Negative      1245      312
+Actual Positive       258      279
+
+Inference time:
+Mean:                18.33 ms/image
+Median:              17.21 ms/image
+P95:                 23.63 ms/image
+
+Saved:
+  runs\final\test_metrics\image_level_predictions.csv
+  runs\final\test_metrics\image_level_metrics.csv
+  runs\final\test_metrics\confusion_matrix.csv
+  runs\final\test_metrics\confusion_matrix.png

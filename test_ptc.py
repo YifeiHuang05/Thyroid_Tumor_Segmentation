@@ -409,7 +409,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--output",
         type=str,
-        default="runs/final/test_metrics",
+        default="data/ThyroidXL_yolo/runs/final/test_metrics",
         help="Directory for test results.",
     )
 
