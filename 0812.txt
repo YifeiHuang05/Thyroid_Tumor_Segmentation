@@ -1,3 +1,19 @@
+
+━━ 134/134 8.2it/s 16.3s
+                   all       1876       1876      0.969      0.958      0.987      0.673      0.973      0.959      0.988      0.664
+               non-PTC       1876       1876      0.969      0.958      0.987      0.673      0.973      0.959      0.988      0.664
+Speed: 0.2ms preprocess, 2.1ms inference, 0.0ms loss, 0.8ms postprocess per image
+Results saved to C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL_yolo\runs\final
+
+Best model:
+C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL_yolo\runs\final\weights\best.pt
+
+======================================================================
+ULTRALYTICS STANDARD TEST EVALUATION
+======================================================================
+Ultralytics 8.4.116  Python-3.10.20 torch-2.13.0+cu130 CUDA:0 (NVIDIA RTX PRO 500 Blackwell Generation Laptop GPU, 6113MiB)
+YOLO26n-seg summary (fused): 139 layers, 2,689,274 parameters, 0 gradients, 9.1 GFLOPs
+
                    all       2094       2094      0.354      0.466      0.399      0.276      0.357      0.468      0.403      0.277
                non-PTC       1557       1557      0.708      0.932      0.799      0.552      0.713      0.936      0.806      0.554
                    PTC        537        537          0          0          0          0          0          0          0          0
