@@ -1,0 +1,15 @@
+metric,value
+accuracy,0.7435530085959885
+balanced_accuracy,0.5
+macro_f1,0.4264585045193098
+f1,0.0
+precision,0.0
+sensitivity,0.0
+specificity,1.0
+tn,1557
+fp,0
+fn,537
+tp,0
+mean_inference_ms,18.08528132763535
+median_inference_ms,16.66644999932032
+p95_inference_ms,24.009384999772006

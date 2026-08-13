@@ -1,8 +1,4 @@
-# Dataset files
-*.rar
-*.jpg
-*.png
-*.dcm
+
 
 # Folders containing dataset files
 dataset/

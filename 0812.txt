@@ -1,0 +1,41 @@
+                   all       2094       2094      0.354      0.466      0.399      0.276      0.357      0.468      0.403      0.277
+               non-PTC       1557       1557      0.708      0.932      0.799      0.552      0.713      0.936      0.806      0.554
+                   PTC        537        537          0          0          0          0          0          0          0          0
+Speed: 0.8ms preprocess, 3.5ms inference, 0.0ms loss, 0.4ms postprocess per image
+Results saved to C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL_yolo\runs\test_metrics
+
+Standard Ultralytics metrics:
+Box mAP50:        0.3993
+Box mAP50-95:     0.2762
+Mask mAP50:       0.4031
+Mask mAP50-95:    0.2769
+
+======================================================================
+IMAGE-LEVEL PTC CLASSIFICATION
+======================================================================
+
+Image-level PTC metrics:
+Accuracy:             0.7436
+Balanced accuracy:    0.5000
+Macro F1:             0.4265
+F1:                   0.0000
+Precision:            0.0000
+Sensitivity/Recall:   0.0000
+Specificity:          1.0000
+
+Confusion matrix:
+                 Predicted
+                 Negative Positive
+Actual Negative      1557        0
+Actual Positive       537        0
+
+Inference time:
+Mean:               18.09 ms/image
+Median:             16.67 ms/image
+P95:                24.01 ms/image
+
+Saved:
+  C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL_yolo\runs\test_metrics\image_level_predictions.csv
+  C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL_yolo\runs\test_metrics\image_level_metrics.csv
+  C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL_yolo\runs\test_metrics\confusion_matrix.csv
+  C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL_yolo\runs\test_metrics\confusion_matrix.png
