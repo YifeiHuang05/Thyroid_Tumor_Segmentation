@@ -41,7 +41,7 @@ def build_ptc_labels(data_root, out_csv):
         n1 = rec.get("nodule_1") or {}
         hist = _norm(n1.get("Histopathology"))
         fna = _norm(n1.get("FNAC"))
-        is_ptc = ("papillary" in hist and "thyroid" in hist) or ("papillary" in fna)
+        is_ptc = ("papillary" in hist and "thyroid" in hist)
         if is_ptc:
             ptc = 1
         elif patient_benign.get(pid, False):
