@@ -1,0 +1,45 @@
+                   all       2094       2094       0.57      0.827       0.67      0.432      0.573      0.834      0.674      0.436
+               non-PTC       1557       1557      0.682      0.938      0.871      0.584      0.687      0.947      0.874      0.585
+                   PTC        537        537      0.458      0.715      0.469      0.279       0.46      0.721      0.473      0.287
+Speed: 1.4ms preprocess, 3.9ms inference, 0.0ms loss, 0.7ms postprocess per image
+Results saved to C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL_yolo\runs\test_metrics
+
+Standard Ultralytics metrics:
+Box mAP50:        0.6699
+Box mAP50-95:     0.4318
+Mask mAP50:       0.6736
+Mask mAP50-95:    0.4359
+
+======================================================================
+IMAGE-LEVEL PTC CLASSIFICATION
+======================================================================
+
+Image-level PTC metrics:
+Accuracy:             0.7431
+Balanced accuracy:    0.7113
+Macro F1:             0.6907
+F1:                   0.5633
+Precision:            0.4993
+Sensitivity/Recall:   0.6462
+Specificity:          0.7765
+
+Confusion matrix:
+                 Predicted
+                 Negative Positive
+Actual Negative      1209      348
+Actual Positive       190      347
+
+Inference time:
+Mean:               22.20 ms/image
+Median:             21.55 ms/image
+P95:                32.26 ms/image
+
+Saved:
+  C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL_yolo\runs\test_metrics\image_level_predictions.csv
+  C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL_yolo\runs\test_metrics\image_level_metrics.csv
+  C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL_yolo\runs\test_metrics\confusion_matrix.csv
+  C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL_yolo\runs\test_metrics\confusion_matrix.png
+
+======================================================================
+PIPELINE COMPLETE
+======================================================================
