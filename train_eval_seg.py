@@ -250,17 +250,11 @@ def train_model():
     )
 
     best_model = (
-        RUNS_DIR
-        / RUN_NAME
-        / "weights"
-        / "best.pt"
+        "runs/segment/runs_clean_seg/thyroidxl_seg_clean/weights/best.pt"
     )
 
     last_model = (
-        RUNS_DIR
-        / RUN_NAME
-        / "weights"
-        / "last.pt"
+        "runs/segment/runs_clean_seg/thyroidxl_seg_clean/weights/last.pt"
     )
 
     print(f"Best model: {best_model}")
@@ -560,8 +554,8 @@ def evaluate_test(model_path):
 
 if __name__ == "__main__":
 
-    best_model_path = train_model()
-
+    #best_model_path = train_model()
+    best_model_path = "runs/segment/runs_clean_seg/thyroidxl_seg_clean/weights/best.pt"
     evaluate_test(
         best_model_path
     )

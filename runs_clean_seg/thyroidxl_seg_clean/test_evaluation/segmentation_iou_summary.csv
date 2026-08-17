@@ -1,0 +1,2 @@
+model,test_images,confidence_threshold,mean_IoU,median_IoU,std_IoU,prediction_presence_rate,mean_inference_time_ms
+runs/segment/runs_clean_seg/thyroidxl_seg_clean/weights/best.pt,2094,0.25,0.797884267461327,0.8328286091138466,0.14902558374091757,0.9894937917860553,17.988310983747827

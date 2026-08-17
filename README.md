@@ -15,74 +15,6 @@ Protocol:
 
 Existing test set remains completely untouched. The existing training cohort is split once at the patient level using an 80:20 stratified split based on PTC status, with a fixed random seed. All images from the same patient are assigned to the same split. The validation set retains approximately the same PTC prevalence as the training cohort and is not oversampled. Class balancing, if required, is applied only during model training. The patient split is saved as a permanent manifest and reused for all subsequent experiments.
 
-Patient-level split
-        ↓
-Train / Validation
-        ↓
-Training augmentation / sampling
-        ↓
-Model training
-
-Define: PTC-positive =
-    Papillary thyroid carcinoma
-    + Micro-papillary thyroid carcinoma?
-    + Papillary thyroid carcinoma, chronic thyroiditis?
-
-PATIENT LEVEL
-        │
-        └── PTC status
-              │
-              ├── PTC+
-              └── PTC−
-
-
-(thyroidxl) C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation>python thyroidxl_pipeline.py    --source data\ThyroidXL     --output data\ThyroidXL_yolo    --prepare-only     
-
-Source: C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL
-Output: C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL_yolo
-
-Loading JSON:
-  C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL\train\train_annotations.json
-
-Training patients: 3354
-Training images: 9541
-Training annotations: 9541
-
-PTC-positive patients: 506
-PTC-negative patients: 2848
-
-No existing patient split found.
-Creating a new stratified 80/20 split...
-
-Saved permanent split:
-  C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL_yolo\metadata\patient_split.csv
-  C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL_yolo\metadata\train_patients.txt
-  C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL_yolo\metadata\val_patients.txt
-
-======================================================================
-PATIENT-LEVEL SPLIT
-======================================================================
-TRAIN: 2683 patients |  7665 images |  405 PTC+ |  15.10% PTC
-VAL:    671 patients |  1876 images |  101 PTC+ |  15.05% PTC
-======================================================================
-
-TRAIN: images=7665 polygons=7665 PTC=1164 non-PTC=6501 missing=0
-VAL: images=1876 polygons=1876 PTC=272 non-PTC=1604 missing=0
-TEST: images=2094 polygons=2094 PTC=537 non-PTC=1557 missing=0
-
-Dataset YAML: C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL_yolo\dataset.yaml
-PTC patients: 506
-non-PTC patients: 2848
-
-
-
-
-0813 validating best.pt after epoch 54:
-Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):
-all       1876       1876      0.598      0.794      0.666      0.435        0.6      0.807      0.668      0.432
-non-PTC       1604       1604      0.794      0.944      0.932      0.629      0.796      0.948      0.933      0.627
-PTC        272        272      0.401      0.643      0.399      0.241      0.405      0.665      0.404      0.237
-
 
 
 # Multi-task pipeline
@@ -132,7 +64,146 @@ best.pt
 classification_model.pt
 
 
+# Segmentation
+======================================================================
+EVALUATING OFFICIAL TEST SET
+======================================================================
+Images evaluated:       2094
+Mean IoU:               0.7979
+Median IoU:             0.8328
+Std IoU:                0.1490
+Prediction presence:    0.9895
+Mean inference time:    17.99 ms
 
+Per-image results:
+runs_clean_seg\thyroidxl_seg_clean\test_evaluation\segmentation_iou_per_image.csv
+
+Summary:
+runs_clean_seg\thyroidxl_seg_clean\test_evaluation\segmentation_iou_summary.csv
+
+
+
+# Classification
+
+
+======================================================================
+PREPARING THYROIDXL CLASSIFICATION TARGETS
+======================================================================
+
+Input:
+data\ThyroidXL_clean\metadata\master_annotations.csv
+
+Loaded 11635 image records.
+
+======================================================================
+CLASSIFICATION LABEL AUDIT
+======================================================================
+
+Total images:   11635
+Total patients: 4093
+
+--- Benign / malignant ---
+split  benign_malignant_name
+test   benign                   1120
+       malignant                 974
+train  benign                   6018
+       malignant                2115
+val    benign                   1034
+       malignant                 374
+Name: count, dtype: int64
+
+--- PTC / non-PTC ---
+split  ptc
+test   0      1153
+       1       941
+train  0      6127
+       1      2006
+val    0      1043
+       1       365
+Name: count, dtype: int64
+
+PTC label source:
+split  ptc_source    
+test   fnac               404
+       histopathology     537
+       non_ptc           1153
+train  fnac               800
+       histopathology    1206
+       non_ptc           6127
+val    fnac               135
+       histopathology     230
+       non_ptc           1043
+Name: count, dtype: int64
+
+--- FNAC ---
+split  fnac_class
+test   2.0           1126
+       3.0             11
+       4.0              7
+       5.0             83
+       6.0            768
+       NaN             99
+train  1.0             19
+       2.0           5969
+       3.0             88
+       4.0             11
+       5.0            195
+       6.0           1641
+       NaN            210
+val    2.0           1038
+       3.0              9
+       5.0             30
+       6.0            271
+       NaN             60
+Name: count, dtype: int64
+
+--- TIRADS ---
+split  tirads_class
+test   2                131
+       3                512
+       4                617
+       5                834
+train  1                 64
+       2                814
+       3               2595
+       4               2514
+       5               2146
+val    1                  6
+       2                128
+       3                455
+       4                435
+       5                384
+Name: count, dtype: int64
+
+--- Missing labels ---
+benign_malignant         :     0 missing (0.00%)
+ptc                      :     0 missing (0.00%)
+fnac_class               :   369 missing (3.17%)
+tirads_class             :     0 missing (0.00%)
+
+--- Patient-level consistency ---
+benign_malignant         : 0 patients with inconsistent labels
+ptc                      : 0 patients with inconsistent labels
+fnac_class               : 0 patients with inconsistent labels
+tirads_class             : 0 patients with inconsistent labels
+
+======================================================================
+CLASSIFICATION METADATA READY
+======================================================================
+
+Output directory:
+
+data\ThyroidXL_clean\classification
+
+Files:
+
+classification_metadata.csv
+patient_classification_labels.csv
+
+benign_malignant_labels.csv
+ptc_labels.csv
+fnac_labels.csv
+tirads_labels.csv
 
 
 
