@@ -1,5 +1,16 @@
 ### REMOVE backslash when on windows
 
+# prep_multitask_dataset.py:
+python prep_multitask_dataset.py 
+    --train-json data/ThyroidXL/train/train_annotations.json 
+    --train-images data/ThyroidXL/train/images 
+    --test-json data/ThyroidXL/train/test_annotations.json 
+    --test-images data/ThyroidXL/test/images 
+    --output data/ThyroidXL_clean
+
+
+
+
 # data_prep_pipeline.py
 Dataset prep only:
 python data_prep_pipeline.py \

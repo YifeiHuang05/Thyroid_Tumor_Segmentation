@@ -85,6 +85,57 @@ PTC        272        272      0.401      0.643      0.399      0.241      0.405
 
 
 
+# Multi-task pipeline
+Step 1 — Rebuild data
+JSON
+ ↓
+patient-level split
+ ↓
+master CSV
+Step 2 — Generate clean segmentation dataset
+all polygons → class 0 = nodule
+Step 3 — Train YOLO26n-seg
+
+Use your existing training settings initially.
+
+No HPO.
+
+Step 4 — Calculate segmentation IoU
+
+Use the actual polygon masks from the JSON as ground truth.
+
+Step 5 — Generate classification crops
+
+Use the ground-truth bounding boxes initially.
+
+Step 6 — Train ResNet18 multi-task classifier
+
+Four heads:
+
+B/M
+PTC
+FNAC
+TIRADS
+Step 7 — Evaluate on the common test set
+
+Produce:
+
+Segmentation IoU
+B/M Macro F1
+PTC Macro F1
+FNAC Macro F1
+TIRADS Macro F1
+Step 8 — Save everything
+results.csv
+confusion matrices
+best.pt
+classification_model.pt
+
+
+
+
+
+
 # Two-stage thyroid pipeline foundation is in place
 I implemented the dataset logic that matches your requested workflow:
 
