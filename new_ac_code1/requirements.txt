@@ -1,0 +1,10 @@
+torch>=1.13
+torchvision>=0.14
+numpy>=1.23
+Pillow>=9.0
+scipy>=1.9
+scikit-learn>=1.1
+scikit-image>=0.19
+pyyaml>=6.0
+tqdm>=4.64
+timm>=0.9.0   # 可选：PTC 分类 backbone（EfficientNet 等）；缺省自动回退到内置 CNN
