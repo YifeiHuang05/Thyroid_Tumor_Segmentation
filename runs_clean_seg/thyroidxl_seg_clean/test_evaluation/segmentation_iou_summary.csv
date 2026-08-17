@@ -1,2 +1,2 @@
-model,test_images,confidence_threshold,mean_IoU,median_IoU,std_IoU,prediction_presence_rate,mean_inference_time_ms
-runs/segment/runs_clean_seg/thyroidxl_seg_clean/weights/best.pt,2094,0.25,0.797884267461327,0.8328286091138466,0.14902558374091757,0.9894937917860553,17.988310983747827
+model,test_images,confidence_threshold,mean_IoU,median_IoU,std_IoU,prediction_presence_rate,mean_inference_time_ms,mean_dice,mean_hd95
+runs/segment/runs_clean_seg/thyroidxl_seg_clean/weights/best.pt,2094,0.25,0.797884267461327,0.8328286091138466,0.14902558374091757,0.9894937917860553,19.418053915963355,0.8767057182347041,5.492201983426738

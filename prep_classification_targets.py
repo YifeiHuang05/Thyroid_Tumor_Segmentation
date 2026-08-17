@@ -29,15 +29,7 @@ OUTPUT_DIR = (
 # ============================================================
 
 def parse_fnac_value(value):
-    """
-    Extract the numeric FNAC category.
-
-    Examples:
-        '2' -> 2
-        '6' -> 6
-        '6 (papillary thyroid carcinoma)' -> 6
-        None -> NaN
-    """
+    """Extract numeric FNAC category."""
 
     if pd.isna(value):
         return np.nan
@@ -55,39 +47,31 @@ def parse_fnac_value(value):
     return np.nan
 
 
-def fnac_contains_ptc(value):
-    """
-    Determine whether FNAC explicitly mentions
-    papillary thyroid carcinoma.
-    """
-
-    if pd.isna(value):
-        return False
-
-    text = str(value).lower()
-
-    return (
-        "papillary thyroid carcinoma" in text
-        or "papillary carcinoma" in text
-        or "ptc" in text
-    )
-
-
 def histopathology_is_ptc(value):
     """
-    Determine whether histopathology explicitly
-    identifies papillary thyroid carcinoma.
+    Histopathology-based PTC definition.
+
+    Returns:
+        True  = histopathology explicitly indicates PTC
+        False = histopathology is present and does not indicate PTC
+        NaN   = histopathology unavailable
     """
 
     if pd.isna(value):
-        return False
+        return np.nan
 
-    text = str(value).lower()
+    text = str(value).strip().lower()
 
-    return (
+    if not text:
+        return np.nan
+
+    if (
         "papillary thyroid carcinoma" in text
         or "papillary carcinoma" in text
-    )
+    ):
+        return True
+
+    return False
 
 
 # ============================================================
@@ -102,11 +86,9 @@ def build_labels(df):
     # 1. Benign / malignant
     # --------------------------------------------------------
     #
-    # Original COCO category:
-    #   0 = benign
-    #   1 = malignant
-    #
-    # This mapping is explicitly present in the source JSON.
+    # Original annotation:
+    # 0 = benign
+    # 1 = malignant
     #
 
     result["benign_malignant"] = (
@@ -143,57 +125,52 @@ def build_labels(df):
     )
 
     # --------------------------------------------------------
-    # 4. PTC vs non-PTC
+    # 4. PTC
     # --------------------------------------------------------
     #
-    # Primary evidence:
-    #   Histopathology, when available.
+    # IMPORTANT:
     #
-    # If histopathology is unavailable, an explicit
-    # PTC statement in FNAC is used.
+    # Official PTC scoring is based ONLY on
+    # histopathology.
     #
-    # This preserves cases such as:
-    #   Histopathology = Papillary thyroid carcinoma
+    # PTC:
+    #   histopathology = papillary thyroid carcinoma
+    #       -> 1
     #
-    # and:
-    #   FNAC = '6 (papillary thyroid carcinoma)'
-    #   Histopathology = null
+    # Non-PTC:
+    #   histopathology is available but diagnosis
+    #   is not PTC
+    #       -> 0
+    #
+    # Unknown:
+    #   histopathology unavailable
+    #       -> NaN
+    #
+    # FNAC is NOT used to determine PTC.
     #
 
-    result["histopathology_ptc"] = (
+    result["ptc"] = (
         result["histopathology"]
         .apply(histopathology_is_ptc)
     )
 
-    result["fnac_ptc"] = (
-        result["fnac"]
-        .apply(fnac_contains_ptc)
-    )
-
-    result["ptc"] = (
-        result["histopathology_ptc"]
-        | result["fnac_ptc"]
-    ).astype(int)
-
-    result["ptc_source"] = np.select(
-        [
-            result["histopathology_ptc"],
-            result["fnac_ptc"]
-        ],
-        [
-            "histopathology",
-            "fnac"
-        ],
-        default="non_ptc"
+    result["ptc_source"] = np.where(
+        result["ptc"].isna(),
+        "missing_histopathology",
+        "histopathology"
     )
 
     # --------------------------------------------------------
-    # Image-level classification target
+    # Explicit PTC label name
     # --------------------------------------------------------
-    #
-    # Every image from the same patient receives the
-    # corresponding patient/nodule label.
-    #
+
+    result["ptc_name"] = (
+        result["ptc"]
+        .map({
+            0.0: "non-PTC",
+            1.0: "PTC"
+        })
+    )
 
     return result
 
@@ -244,10 +221,12 @@ def audit_labels(df):
         df[
             [
                 "split",
-                "ptc"
+                "ptc_name"
             ]
         ]
-        .value_counts()
+        .value_counts(
+            dropna=False
+        )
         .sort_index()
     )
 
@@ -265,6 +244,41 @@ def audit_labels(df):
     )
 
     # --------------------------------------------------------
+    # PTC test-set evaluation population
+    # --------------------------------------------------------
+
+    test_ptc = df[
+        df["split"] == "test"
+    ].copy()
+
+    test_ptc_labeled = test_ptc[
+        test_ptc["ptc"].notna()
+    ]
+
+    print(
+        "\n--- Official PTC test population ---"
+    )
+
+    print(
+        f"Test images with histopathology: "
+        f"{len(test_ptc_labeled)}"
+    )
+
+    print(
+        f"Test images without histopathology: "
+        f"{test_ptc['ptc'].isna().sum()}"
+    )
+
+    print("\nOfficial PTC test labels:")
+
+    print(
+        test_ptc_labeled[
+            "ptc_name"
+        ]
+        .value_counts()
+    )
+
+    # --------------------------------------------------------
     # FNAC
     # --------------------------------------------------------
 
@@ -277,7 +291,9 @@ def audit_labels(df):
                 "fnac_class"
             ]
         ]
-        .value_counts(dropna=False)
+        .value_counts(
+            dropna=False
+        )
         .sort_index()
     )
 
@@ -294,7 +310,9 @@ def audit_labels(df):
                 "tirads_class"
             ]
         ]
-        .value_counts(dropna=False)
+        .value_counts(
+            dropna=False
+        )
         .sort_index()
     )
 
@@ -335,7 +353,9 @@ def audit_labels(df):
         consistency = (
             df
             .groupby("patient_id")[column]
-            .nunique(dropna=False)
+            .nunique(
+                dropna=False
+            )
         )
 
         inconsistent = (
@@ -350,7 +370,7 @@ def audit_labels(df):
 
 
 # ============================================================
-# Save classification datasets
+# Save outputs
 # ============================================================
 
 def save_outputs(df):
@@ -374,13 +394,11 @@ def save_outputs(df):
         "benign_malignant_name",
 
         "ptc",
+        "ptc_name",
         "ptc_source",
 
         "fnac_class",
         "tirads_class",
-
-        "histopathology_ptc",
-        "fnac_ptc",
 
         "original_category_id",
 
@@ -406,7 +424,7 @@ def save_outputs(df):
     )
 
     # --------------------------------------------------------
-    # One row per patient
+    # Patient-level labels
     # --------------------------------------------------------
 
     patient_columns = [
@@ -415,6 +433,7 @@ def save_outputs(df):
         "benign_malignant",
         "benign_malignant_name",
         "ptc",
+        "ptc_name",
         "ptc_source",
         "fnac_class",
         "tirads_class",
@@ -467,6 +486,7 @@ def save_outputs(df):
                 "patient_id",
                 "split",
                 "ptc",
+                "ptc_name",
                 "ptc_source"
             ],
 
@@ -494,11 +514,9 @@ def save_outputs(df):
             if x in df.columns
         ]
 
-        task_df = df[
+        df[
             columns
-        ].copy()
-
-        task_df.to_csv(
+        ].to_csv(
             OUTPUT_DIR
             / f"{task}_labels.csv",
             index=False

@@ -66,14 +66,16 @@ classification_model.pt
 
 # Segmentation
 ======================================================================
-EVALUATING OFFICIAL TEST SET
+TEST SEGMENTATION RESULTS
 ======================================================================
 Images evaluated:       2094
 Mean IoU:               0.7979
 Median IoU:             0.8328
 Std IoU:                0.1490
 Prediction presence:    0.9895
-Mean inference time:    17.99 ms
+Mean inference time:    19.42 ms
+Mean Dice coefficient:  0.8767
+Mean HD95:              5.4922
 
 Per-image results:
 runs_clean_seg\thyroidxl_seg_clean\test_evaluation\segmentation_iou_per_image.csv
@@ -84,7 +86,6 @@ runs_clean_seg\thyroidxl_seg_clean\test_evaluation\segmentation_iou_summary.csv
 
 
 # Classification
-
 
 ======================================================================
 PREPARING THYROIDXL CLASSIFICATION TARGETS
@@ -113,26 +114,36 @@ val    benign                   1034
 Name: count, dtype: int64
 
 --- PTC / non-PTC ---
-split  ptc
-test   0      1153
-       1       941
-train  0      6127
-       1      2006
-val    0      1043
-       1       365
+split  ptc_name
+test   PTC          537
+       non-PTC       41
+       NaN         1516
+train  PTC         1206
+       non-PTC      177
+       NaN         6750
+val    PTC          230
+       non-PTC       39
+       NaN         1139
 Name: count, dtype: int64
 
 PTC label source:
-split  ptc_source    
-test   fnac               404
-       histopathology     537
-       non_ptc           1153
-train  fnac               800
-       histopathology    1206
-       non_ptc           6127
-val    fnac               135
-       histopathology     230
-       non_ptc           1043
+split  ptc_source            
+test   histopathology             578
+       missing_histopathology    1516
+train  histopathology            1383
+       missing_histopathology    6750
+val    histopathology             269
+       missing_histopathology    1139
+Name: count, dtype: int64
+
+--- Official PTC test population ---
+Test images with histopathology: 578
+Test images without histopathology: 1516
+
+Official PTC test labels:
+ptc_name
+PTC        537
+non-PTC     41
 Name: count, dtype: int64
 
 --- FNAC ---
@@ -177,7 +188,7 @@ Name: count, dtype: int64
 
 --- Missing labels ---
 benign_malignant         :     0 missing (0.00%)
-ptc                      :     0 missing (0.00%)
+ptc                      :  9405 missing (80.83%)
 fnac_class               :   369 missing (3.17%)
 tirads_class             :     0 missing (0.00%)
 
@@ -204,6 +215,70 @@ benign_malignant_labels.csv
 ptc_labels.csv
 fnac_labels.csv
 tirads_labels.csv
+
+
+
+
+
+Epoch 17/25
+  train loss = 2.0340
+  val loss   = 2.7655
+  time       = 87.7s
+  validation Macro F1:
+    benign_malignant     0.8000
+    ptc                  0.8315
+    fnac                 0.2636
+    tirads               0.4823
+  -> best classifier saved
+
+Early stopping.
+
+Classifier training time: 0.66 h
+
+Loaded best classifier from epoch 17
+
+======================================================================
+GENERATING TEST CROPS FROM YOLO PREDICTED MASKS
+======================================================================
+Test crops saved to:
+data\ThyroidXL_clean\classification\seg_guided_efficientnet\test_crops
+YOLO segmentation failures: 22
+
+======================================================================
+OFFICIAL TEST CLASSIFICATION RESULTS
+======================================================================
+
+benign_malignant:
+  Macro F1 = 0.8186
+  Accuracy = 0.8195
+  N = 2094
+
+ptc:
+  Macro F1 = 0.8031
+  Accuracy = 0.9394
+  N = 578
+
+fnac:
+  Macro F1 = 0.2590
+  Accuracy = 0.6637
+  N = 1995
+
+tirads:
+  Macro F1 = 0.4812
+  Accuracy = 0.6428
+  N = 2094
+
+======================================================================
+PIPELINE COMPLETE
+======================================================================
+
+Output directory:
+data\ThyroidXL_clean\classification\seg_guided_efficientnet
+
+
+
+
+
 
 
 

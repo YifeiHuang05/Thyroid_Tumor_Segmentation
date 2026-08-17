@@ -409,6 +409,15 @@ def evaluate_test(model_path):
             pred_area > 0
         )
 
+        
+        # Dice coefficient can be calculated as:
+        # dice = 2 * intersection / (gt_area + pred_area)
+        dice = 2 * intersection / (gt_area + pred_area) if (gt_area + pred_area) > 0 else 0
+
+        # HD95 (95th percentile of the Hausdorff distance) can be calculated using scipy's directed_hausdorff function
+        from scipy.spatial.distance import directed_hausdorff
+        hd95 = directed_hausdorff(pred_mask.astype(bool), gt_mask.astype(bool))[0]
+
         rows.append({
             "image": image_path.name,
             "iou": iou,
@@ -418,14 +427,10 @@ def evaluate_test(model_path):
             "union": union,
             "has_prediction": has_prediction,
             "inference_time_ms":
-                prediction_time * 1000
+                prediction_time * 1000,
+            "dice": dice,
+            "hd95": hd95
         })
-
-        if index % 100 == 0:
-            print(
-                f"Processed "
-                f"{index}/{len(image_paths)}"
-            )
 
     # --------------------------------------------------------
     # Results
@@ -480,6 +485,14 @@ def evaluate_test(model_path):
         "inference_time_ms"
     ].mean()
 
+    mean_dice = results_df[
+        "dice"
+    ].mean()
+
+    mean_hd95 = results_df[
+        "hd95"
+    ].mean()
+
     summary = {
         "model": str(model_path),
         "test_images": len(results_df),
@@ -492,7 +505,9 @@ def evaluate_test(model_path):
         ),
         "mean_inference_time_ms": float(
             mean_inference_ms
-        )
+        ),
+        "mean_dice": float(mean_dice),
+        "mean_hd95": float(mean_hd95)
     }
 
     summary_path = (
@@ -536,7 +551,12 @@ def evaluate_test(model_path):
         f"Mean inference time:    "
         f"{mean_inference_ms:.2f} ms"
     )
-
+    print(
+        f"Mean Dice coefficient:  {mean_dice:.4f}"
+    )
+    print(
+        f"Mean HD95:              {mean_hd95:.4f}"
+    )
     print(
         f"\nPer-image results:"
         f"\n{csv_path}"
@@ -554,7 +574,7 @@ def evaluate_test(model_path):
 
 if __name__ == "__main__":
 
-    #best_model_path = train_model()
+    best_model_path = train_model()
     best_model_path = "runs/segment/runs_clean_seg/thyroidxl_seg_clean/weights/best.pt"
     evaluate_test(
         best_model_path
