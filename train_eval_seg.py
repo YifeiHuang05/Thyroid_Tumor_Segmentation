@@ -25,8 +25,8 @@ RUNS_DIR = Path(
 RUN_NAME = "thyroidxl_seg_clean"
 
 # Training
-EPOCHS = 100
-PATIENCE = 20
+EPOCHS = 40
+PATIENCE = 8
 #IMGSZ = 640
 BATCH = -1
 DEVICE = 0
