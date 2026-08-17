@@ -1,0 +1,100 @@
+{
+  "export_dir": "C:\\Users\\250030817\\Desktop\\EEDP_EID_Project\\Thyroid_Tumor_Segmentation\\runs_metrics\\eval_20260817_091347",
+  "stage1": {
+    "results_dict": {
+      "metrics/precision(B)": 0.7677195722245266,
+      "metrics/recall(B)": 0.8160628844839372,
+      "metrics/mAP50(B)": 0.8323955923903613,
+      "metrics/mAP50-95(B)": 0.5584347644408693,
+      "metrics/precision(M)": 0.7688035540404772,
+      "metrics/recall(M)": 0.8173615857826384,
+      "metrics/mAP50(M)": 0.8344892861921351,
+      "metrics/mAP50-95(M)": 0.5575867515793151,
+      "fitness": 1.1160215160201843
+    },
+    "fitness": 1.1160215160201843,
+    "speed": {
+      "preprocess": 0.8681576221959887,
+      "inference": 3.674555524501468,
+      "loss": 0.0005374124869573991,
+      "postprocess": 0.4296560140027033
+    },
+    "save_dir": "C:\\Users\\250030817\\Desktop\\EEDP_EID_Project\\Thyroid_Tumor_Segmentation\\runs_stage1\\stage1_eval",
+    "maps": [
+      1.3000850876040217,
+      0.931957944436347
+    ],
+    "names": {
+      "0": "Benign",
+      "1": "Malignant"
+    }
+  },
+  "stage2": {
+    "results_dict": {
+      "metrics/accuracy_top1": 0.5428571701049805,
+      "metrics/accuracy_top5": 1.0,
+      "fitness": 0.7714285850524902
+    },
+    "fitness": 0.7714285850524902,
+    "speed": {
+      "preprocess": 0.2210023377526116,
+      "inference": 0.5696111686781726,
+      "loss": 0.000564934830967482,
+      "postprocess": 0.0008924678270402667
+    },
+    "save_dir": "C:\\Users\\250030817\\Desktop\\EEDP_EID_Project\\Thyroid_Tumor_Segmentation\\runs_stage2\\stage2_eval",
+    "top1": 0.5428571701049805,
+    "top5": 1.0
+  },
+  "final_three_class": {
+    "matrix": {
+      "Benign": {
+        "Benign": 921,
+        "PTC": 123,
+        "NonPTC": 1
+      },
+      "PTC": {
+        "Benign": 40,
+        "PTC": 169,
+        "NonPTC": 7
+      },
+      "NonPTC": {
+        "Benign": 40,
+        "PTC": 128,
+        "NonPTC": 1
+      }
+    },
+    "accuracy": 0.762937062937063,
+    "macro_f1": 0.4809919170228827,
+    "per_class": {
+      "Benign": {
+        "precision": 0.9200799200799201,
+        "recall": 0.8813397129186603,
+        "f1": 0.9002932551319649
+      },
+      "PTC": {
+        "precision": 0.4023809523809524,
+        "recall": 0.7824074074074074,
+        "f1": 0.5314465408805032
+      },
+      "NonPTC": {
+        "precision": 0.1111111111111111,
+        "recall": 0.005917159763313609,
+        "f1": 0.011235955056179775
+      }
+    },
+    "segmentation": {
+      "scipy_available": true,
+      "n_images": 1430,
+      "mean_iou": 0.8041671236708063,
+      "median_iou": 0.8457636860267711,
+      "mean_hd95": 23.863697609021273,
+      "median_hd95": 15.855694150420938,
+      "hd95_valid_count": 1406
+    },
+    "exports": {
+      "predictions_csv": "C:\\Users\\250030817\\Desktop\\EEDP_EID_Project\\Thyroid_Tumor_Segmentation\\runs_metrics\\eval_20260817_091347\\final_predictions.csv",
+      "segmentation_csv": "C:\\Users\\250030817\\Desktop\\EEDP_EID_Project\\Thyroid_Tumor_Segmentation\\runs_metrics\\eval_20260817_091347\\stage1_segmentation_iou_hd95.csv"
+    }
+  }
+}

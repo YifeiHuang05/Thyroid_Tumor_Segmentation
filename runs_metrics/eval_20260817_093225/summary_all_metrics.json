@@ -1,0 +1,192 @@
+{
+  "export_dir": "C:\\Users\\250030817\\Desktop\\EEDP_EID_Project\\Thyroid_Tumor_Segmentation\\runs_metrics\\eval_20260817_093225",
+  "stage1": {
+    "results_dict": {
+      "metrics/precision(B)": 0.7677195722245266,
+      "metrics/recall(B)": 0.8160628844839372,
+      "metrics/mAP50(B)": 0.8323955923903613,
+      "metrics/mAP50-95(B)": 0.5584347644408693,
+      "metrics/precision(M)": 0.7688035540404772,
+      "metrics/recall(M)": 0.8173615857826384,
+      "metrics/mAP50(M)": 0.8344892861921351,
+      "metrics/mAP50-95(M)": 0.5575867515793151,
+      "fitness": 1.1160215160201843
+    },
+    "fitness": 1.1160215160201843,
+    "speed": {
+      "preprocess": 0.8507082518027327,
+      "inference": 3.5648320281350583,
+      "loss": 0.0004702795970976561,
+      "postprocess": 0.4070669230256047
+    },
+    "save_dir": "C:\\Users\\250030817\\Desktop\\EEDP_EID_Project\\Thyroid_Tumor_Segmentation\\runs_stage1\\stage1_eval",
+    "maps": [
+      1.3000850876040217,
+      0.931957944436347
+    ],
+    "names": {
+      "0": "Benign",
+      "1": "Malignant"
+    }
+  },
+  "stage2": {
+    "results_dict": {
+      "metrics/accuracy_top1": 0.5428571701049805,
+      "metrics/accuracy_top5": 1.0,
+      "fitness": 0.7714285850524902
+    },
+    "fitness": 0.7714285850524902,
+    "speed": {
+      "preprocess": 0.29251740265686016,
+      "inference": 0.5103729870896061,
+      "loss": 0.000500259618577245,
+      "postprocess": 0.005132207713489022
+    },
+    "save_dir": "C:\\Users\\250030817\\Desktop\\EEDP_EID_Project\\Thyroid_Tumor_Segmentation\\runs_stage2\\stage2_eval",
+    "top1": 0.5428571701049805,
+    "top5": 1.0
+  },
+  "final_three_class": {
+    "matrix": {
+      "Benign": {
+        "Benign": 921,
+        "PTC": 123,
+        "NonPTC": 1
+      },
+      "PTC": {
+        "Benign": 40,
+        "PTC": 169,
+        "NonPTC": 7
+      },
+      "NonPTC": {
+        "Benign": 40,
+        "PTC": 128,
+        "NonPTC": 1
+      }
+    },
+    "accuracy": 0.762937062937063,
+    "macro_f1": 0.4809919170228827,
+    "per_class": {
+      "Benign": {
+        "precision": 0.9200799200799201,
+        "recall": 0.8813397129186603,
+        "f1": 0.9002932551319649
+      },
+      "PTC": {
+        "precision": 0.4023809523809524,
+        "recall": 0.7824074074074074,
+        "f1": 0.5314465408805032
+      },
+      "NonPTC": {
+        "precision": 0.1111111111111111,
+        "recall": 0.005917159763313609,
+        "f1": 0.011235955056179775
+      }
+    },
+    "segmentation": {
+      "scipy_available": true,
+      "n_images": 1430,
+      "mean_iou": 0.8041671236708063,
+      "median_iou": 0.8457636860267711,
+      "mean_hd95": 23.863697609021273,
+      "median_hd95": 15.855694150420938,
+      "hd95_valid_count": 1406
+    },
+    "classwise_segmentation": {
+      "Benign": {
+        "count": 1045,
+        "mean_iou": 0.8078724408377435,
+        "median_iou": 0.856676105423655,
+        "mean_hd95": 24.169414445295644,
+        "median_hd95": 15.556349186104045,
+        "hd95_valid_count": 1025
+      },
+      "PTC": {
+        "count": 216,
+        "mean_iou": 0.7917619305407163,
+        "median_iou": 0.8345696849040013,
+        "mean_hd95": 22.20427008646759,
+        "median_hd95": 15.949999999999989,
+        "hd95_valid_count": 212
+      },
+      "NonPTC": {
+        "count": 169,
+        "mean_iou": 0.7971107051894453,
+        "median_iou": 0.8237933903946743,
+        "mean_hd95": 24.09114658890383,
+        "median_hd95": 17.0,
+        "hd95_valid_count": 169
+      }
+    },
+    "patient_level": {
+      "confusion_matrix": {
+        "Benign": {
+          "Benign": 342,
+          "PTC": 29,
+          "NonPTC": 0
+        },
+        "PTC": {
+          "Benign": 18,
+          "PTC": 56,
+          "NonPTC": 2
+        },
+        "NonPTC": {
+          "Benign": 13,
+          "PTC": 43,
+          "NonPTC": 0
+        }
+      },
+      "accuracy": 0.7912524850894632,
+      "per_class": {
+        "Benign": {
+          "precision": 0.9168900804289544,
+          "recall": 0.921832884097035,
+          "f1": 0.9193548387096774
+        },
+        "PTC": {
+          "precision": 0.4375,
+          "recall": 0.7368421052631579,
+          "f1": 0.5490196078431372
+        },
+        "NonPTC": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        }
+      }
+    },
+    "patient_level_segmentation": {
+      "Benign": {
+        "count": 371,
+        "mean_iou": 0.8087739378325288,
+        "median_iou": 0.8489977193295205,
+        "mean_hd95": 24.312397019987664,
+        "median_hd95": 17.5,
+        "hd95_valid_count": 371
+      },
+      "PTC": {
+        "count": 76,
+        "mean_iou": 0.7907201452732009,
+        "median_iou": 0.8215252467418734,
+        "mean_hd95": 21.5670571068666,
+        "median_hd95": 16.658423086352425,
+        "hd95_valid_count": 76
+      },
+      "NonPTC": {
+        "count": 56,
+        "mean_iou": 0.8035354916128034,
+        "median_iou": 0.8140409261769579,
+        "mean_hd95": 22.961413530161362,
+        "median_hd95": 18.880107108078978,
+        "hd95_valid_count": 56
+      }
+    },
+    "exports": {
+      "predictions_csv": "C:\\Users\\250030817\\Desktop\\EEDP_EID_Project\\Thyroid_Tumor_Segmentation\\runs_metrics\\eval_20260817_093225\\final_predictions.csv",
+      "segmentation_csv": "C:\\Users\\250030817\\Desktop\\EEDP_EID_Project\\Thyroid_Tumor_Segmentation\\runs_metrics\\eval_20260817_093225\\stage1_segmentation_iou_hd95.csv",
+      "patient_predictions_csv": "C:\\Users\\250030817\\Desktop\\EEDP_EID_Project\\Thyroid_Tumor_Segmentation\\runs_metrics\\eval_20260817_093225\\patient_level_predictions.csv",
+      "classwise_segmentation_csv": "C:\\Users\\250030817\\Desktop\\EEDP_EID_Project\\Thyroid_Tumor_Segmentation\\runs_metrics\\eval_20260817_093225\\classwise_segmentation_metrics.csv",
+      "patient_level_classwise_segmentation_csv": "C:\\Users\\250030817\\Desktop\\EEDP_EID_Project\\Thyroid_Tumor_Segmentation\\runs_metrics\\eval_20260817_093225\\patient_level_classwise_segmentation_metrics.csv"
+    }
+  }
+}

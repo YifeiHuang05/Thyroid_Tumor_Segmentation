@@ -1,0 +1,9 @@
+{
+  "scipy_available": true,
+  "n_images": 1430,
+  "mean_iou": 0.8041671236708063,
+  "median_iou": 0.8457636860267711,
+  "mean_hd95": 23.863697609021273,
+  "median_hd95": 15.855694150420938,
+  "hd95_valid_count": 1406
+}

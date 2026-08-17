@@ -1,0 +1,34 @@
+Evaluation script Stage 1 eval:
+metrics/mAP50(B) = 0.8324
+metrics/mAP50-95(B) = 0.5584
+metrics/mAP50(M) = 0.8345
+metrics/mAP50-95(M) = 0.5576
+Results in stage1_eval/
+
+Evaluation script Stage 2 eval:
+Top-1 accuracy: 0.5429
+Top-5 accuracy: 1.0000
+Results in stage2_eval/
+
+Final 3-class fusion (Benign / PTC / NonPTC):
+Confusion matrix:
+Benign: {Benign: 921, PTC: 123, NonPTC: 1}
+PTC: {Benign: 40, PTC: 169, NonPTC: 7}
+NonPTC: {Benign: 40, PTC: 128, NonPTC: 1}
+
+Overall accuracy: 0.7629
+
+Per-class:
+Benign: precision 0.9201, recall 0.8813, F1 0.9003
+PTC: precision 0.4024, recall 0.7824, F1 0.5314
+NonPTC: precision 0.1111, recall 0.0059, F1 0.0112
+
+
+IoU/HD95 summary from this run:
+
+Images evaluated: 1430
+Mean IoU: 0.8042
+Median IoU: 0.8458
+Mean HD95: 23.8637
+Median HD95: 15.8557
+HD95 valid count: 1406

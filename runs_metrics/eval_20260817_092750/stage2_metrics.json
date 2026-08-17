@@ -1,0 +1,17 @@
+{
+  "results_dict": {
+    "metrics/accuracy_top1": 0.5428571701049805,
+    "metrics/accuracy_top5": 1.0,
+    "fitness": 0.7714285850524902
+  },
+  "fitness": 0.7714285850524902,
+  "speed": {
+    "preprocess": 0.19475922091295578,
+    "inference": 0.49128623379926595,
+    "loss": 0.0006446749419457726,
+    "postprocess": 0.0007155844216029366
+  },
+  "save_dir": "C:\\Users\\250030817\\Desktop\\EEDP_EID_Project\\Thyroid_Tumor_Segmentation\\runs_stage2\\stage2_eval",
+  "top1": 0.5428571701049805,
+  "top5": 1.0
+}

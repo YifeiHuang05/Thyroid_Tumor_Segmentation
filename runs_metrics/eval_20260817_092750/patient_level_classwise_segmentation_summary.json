@@ -1,0 +1,26 @@
+{
+  "Benign": {
+    "count": 371,
+    "mean_iou": null,
+    "median_iou": null,
+    "mean_hd95": null,
+    "median_hd95": null,
+    "hd95_valid_count": 0
+  },
+  "PTC": {
+    "count": 76,
+    "mean_iou": null,
+    "median_iou": null,
+    "mean_hd95": null,
+    "median_hd95": null,
+    "hd95_valid_count": 0
+  },
+  "NonPTC": {
+    "count": 56,
+    "mean_iou": null,
+    "median_iou": null,
+    "mean_hd95": null,
+    "median_hd95": null,
+    "hd95_valid_count": 0
+  }
+}

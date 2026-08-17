@@ -1,0 +1,4 @@
+class,count,mean_iou,median_iou,mean_hd95,median_hd95,hd95_valid_count
+Benign,371,,,,,0
+PTC,76,,,,,0
+NonPTC,56,,,,,0

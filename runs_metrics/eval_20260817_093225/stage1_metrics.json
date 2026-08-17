@@ -1,0 +1,29 @@
+{
+  "results_dict": {
+    "metrics/precision(B)": 0.7677195722245266,
+    "metrics/recall(B)": 0.8160628844839372,
+    "metrics/mAP50(B)": 0.8323955923903613,
+    "metrics/mAP50-95(B)": 0.5584347644408693,
+    "metrics/precision(M)": 0.7688035540404772,
+    "metrics/recall(M)": 0.8173615857826384,
+    "metrics/mAP50(M)": 0.8344892861921351,
+    "metrics/mAP50-95(M)": 0.5575867515793151,
+    "fitness": 1.1160215160201843
+  },
+  "fitness": 1.1160215160201843,
+  "speed": {
+    "preprocess": 0.8507082518027327,
+    "inference": 3.5648320281350583,
+    "loss": 0.0004702795970976561,
+    "postprocess": 0.4070669230256047
+  },
+  "save_dir": "C:\\Users\\250030817\\Desktop\\EEDP_EID_Project\\Thyroid_Tumor_Segmentation\\runs_stage1\\stage1_eval",
+  "maps": [
+    1.3000850876040217,
+    0.931957944436347
+  ],
+  "names": {
+    "0": "Benign",
+    "1": "Malignant"
+  }
+}

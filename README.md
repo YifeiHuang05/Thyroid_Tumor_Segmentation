@@ -85,9 +85,46 @@ PTC        272        272      0.401      0.643      0.399      0.241      0.405
 
 
 
+# Two-stage thyroid pipeline foundation is in place
+I implemented the dataset logic that matches your requested workflow:
+
+A single patient-level split is created first, then reused for both stages.
+
+Original labels are mapped as:
+PTC → 0
+NonPTC → 1
+Benign → 2
+
+Stage 1 remaps to:
+Benign → 0
+Malignant → 1
+
+Stage 2 removes benign cases and remaps to:
+PTC → 0
+NonPTC → 1
+
+Files added:
+
+two_stage_dataset.py
+test_two_stage_dataset.py
+
+Generated dataset:
+
+stage1.yaml
+stage2.yaml
 
 
+This implementation follows the required pattern:
 
+Split once at patient level.
+Reuse the same image/patient IDs for Stage 1 and Stage 2.
+Relabel after splitting.
+Keep Stage 2 restricted to malignant cases only.
+Produce separate YOLO dataset YAMLs for each stage.
+
+Stage 1: benign vs malignant YOLO segmentation
+Stage 2: PTC vs NonPTC classification
+Then apply the conditional fusion rule
 
 
 ## Dataset stats
