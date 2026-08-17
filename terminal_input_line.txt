@@ -2,13 +2,107 @@
 
 # prep_multitask_dataset.py:
 python prep_multitask_dataset.py 
-    --train-json data/ThyroidXL/train/train_annotations.json 
-    --train-images data/ThyroidXL/train/images 
-    --test-json data/ThyroidXL/train/test_annotations.json 
-    --test-images data/ThyroidXL/test/images 
-    --output data/ThyroidXL_clean
+    --train-json data\ThyroidXL\train\train_annotations.json 
+    --train-images data\ThyroidXL\train\images 
+    --test-json data\ThyroidXL\test\test_annotations.json 
+    --test-images data\ThyroidXL\test\images 
+    --output data\ThyroidXL_clean
+# outputs:
+======================================================================
+LOADING ORIGINAL THYROIDXL DATA
+======================================================================
+Original training images: 9541
+Original training annotations: 9541
+Original test images: 2094
+Original test annotations: 2094
 
+Building metadata...
 
+Training patients: 3354
+Official test patients: 739
+Original train/test patient separation: PASSED
+
+======================================================================
+SPLITTING ORIGINAL TRAINING SET
+======================================================================
+
+Patients after split:
+split
+train    2850
+val       504
+Name: count, dtype: int64
+
+Images after split:
+split
+train    8133
+val      1408
+Name: count, dtype: int64
+
+Benign/malignant distribution:
+original_category_id     0     1
+split                           
+train                 6018  2115
+val                   1034   374
+
+======================================================================
+GENERATING CLEAN YOLO SEGMENTATION DATASET
+======================================================================
+
+New train: 8133 images / 8133 labels
+New val:   1408 images / 1408 labels
+New test:  2094 images / 2094 labels
+
+Missing image check: PASSED
+
+======================================================================
+FINAL CHECKS
+======================================================================
+train:  8133 images |  8133 labels
+val  :  1408 images |  1408 labels
+test :  2094 images |  2094 labels
+Clean dataset patient-level leakage check: PASSED
+YOLO class check: PASSED (0 = nodule)
+
+======================================================================
+CLEAN DATASET READY
+======================================================================
+
+C:\Users\250030817\Desktop\EEDP_EID_Project\Thyroid_Tumor_Segmentation\data\ThyroidXL_clean
+
+metadata/
+  master_annotations.csv
+  patient_split.csv
+  train_val_annotations.csv
+  test_annotations.csv
+  dataset_summary.json
+
+annotations/
+  original_train_annotations.json
+  original_test_annotations.json
+
+segmentation/
+  images/
+    train/
+    val/
+    test/
+
+  labels/
+    train/
+    val/
+    test/
+
+  dataset.yaml
+
+IMPORTANT:
+  Original train → new train + val
+  Original test  → new test
+  No test resplitting was performed.
+
+Segmentation:
+  class 0 = nodule
+
+YOLO dataset:
+  data\ThyroidXL_clean\segmentation\dataset.yaml
 
 
 # data_prep_pipeline.py
